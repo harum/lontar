@@ -46,7 +46,7 @@ function images() {
 const cssConfig = {
   src: `${dir.src}scss/main.scss`,
   watch: `${dir.src}scss/**/*`,
-  build: `${dir.src}css/`,
+  build: `${dir.build}css/`,
   sassOptions: {
     sourceMap: devBuild,
     outputStyle: 'nested',
@@ -82,5 +82,25 @@ function css() {
     .pipe(browsersync ? browsersync.reload({ stream: true }) : noop())
 };
 
+// browser-sync task
+const syncConfig = {
+  server: {
+    baseDir: './',
+    index: 'index.html',
+  },
+  port: 8000,
+  files: `${dir.build}**/*`,
+  open: false,
+};
+
+function sync() {
+  return browsersync ? browsersync.init(syncConfig) : null;
+};
+
+gulp.watch(imgConfig.src, images);
+gulp.watch(cssConfig.watch, css);
+
 exports.images = images;
 exports.css = gulp.series(css, images);
+exports.sync = sync;
+exports.default = gulp.series(css, sync);
