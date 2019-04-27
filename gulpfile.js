@@ -23,6 +23,14 @@ const autoprefixer = require('autoprefixer');
 const usedcss = require('usedcss');
 const cssnano = require('cssnano');
 
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var globby = require('globby');
+var through = require('through2');
+var log = require('gulplog');
+var uglify = require('gulp-uglify');
+
 console.log('Gulp', devBuild ? 'development' : 'production', 'build');
 
 // images task
@@ -105,7 +113,42 @@ function sync(cb) {
 gulp.watch(imgConfig.src, images);
 gulp.watch(cssConfig.watch, css);
 
+
+// JavaScript
+const jsConfig = {
+  src: `${dir.src}/js/index.js`,
+  watch: `${dir.src}js/**/*`,
+  build: `${dir.build}js/`,
+};
+
+function js(cb) {
+  const bundledStream = through();
+
+  bundledStream
+    .pipe(source(jsConfig.src))
+    .pipe(buffer())
+    .pipe(sourcemaps ? sourcemaps.init({ loadMaps: true }) : noop())
+      .pipe(uglify())
+      .on('error', log.error)
+    .pipe(sourcemaps ? sourcemaps.write() : noop())
+    .pipe(gulp.dest(jsConfig.build));
+
+  globby([jsConfig.src]).then(entries => {
+    const b = browserify({
+      entries,
+      debug: true,
+    });
+
+    b.bundle().pipe(bundledStream);
+  }).catch(err => {
+    bundledStream.emit('error', err);
+  });
+
+  cb();
+};
+
 exports.images = images;
 exports.css = gulp.series(css, images);
 exports.sync = sync;
+exports.js = js;
 exports.default = gulp.series(css, sync);

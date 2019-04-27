@@ -18,11 +18,18 @@
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-size": "^3.0.0",
-    "gulp-sourcemaps": "^2.6.5",
     "postcss-assets": "^5.0.0",
     "usedcss": "^1.0.7"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.4"
+    "browser-sync": "^2.26.4",
+    "browserify": "^16.2.3",
+    "globby": "^9.2.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify": "^3.0.2",
+    "gulplog": "^1.0.0",
+    "through2": "^3.0.1",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }
