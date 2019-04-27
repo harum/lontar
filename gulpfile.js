@@ -34,12 +34,14 @@ const imgConfig = {
   },
 };
 
-function images() {
-  return gulp.src(imgConfig.src)
+function images(cb) {
+  gulp.src(imgConfig.src)
     .pipe(newer(imgConfig.build))
     .pipe(imagemin(imgConfig.minOptions))
     .pipe(size({ showFiles: true }))
     .pipe(gulp.dest(imgConfig.build));
+
+  cb();
 };
 
 // css task
@@ -71,8 +73,8 @@ if (!devBuild) {
   cssConfig.postCssOptions.push(cssnano);
 }
 
-function css() {
-  return gulp.src(cssConfig.src)
+function css(cb) {
+  gulp.src(cssConfig.src)
     .pipe(sourcemaps ? sourcemaps.init() : noop())
     .pipe(sass(cssConfig.sassOptions).on('error', sass.logError))
     .pipe(postcss(cssConfig.postCssOptions))
@@ -80,6 +82,8 @@ function css() {
     .pipe(size({ showFiles: true }))
     .pipe(gulp.dest(cssConfig.build))
     .pipe(browsersync ? browsersync.reload({ stream: true }) : noop())
+
+  cb();
 };
 
 // browser-sync task
@@ -93,8 +97,9 @@ const syncConfig = {
   open: false,
 };
 
-function sync() {
-  return browsersync ? browsersync.init(syncConfig) : null;
+function sync(cb) {
+  browsersync ? browsersync.init(syncConfig) : null;
+  cb();
 };
 
 gulp.watch(imgConfig.src, images);
