@@ -29,7 +29,7 @@ var buffer = require('vinyl-buffer');
 var globby = require('globby');
 var through = require('through2');
 var log = require('gulplog');
-var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify-es').default;
 
 console.log('Gulp', devBuild ? 'development' : 'production', 'build');
 
@@ -125,12 +125,12 @@ function js(cb) {
   const bundledStream = through();
 
   bundledStream
-    .pipe(source(jsConfig.src))
+    .pipe(source('index.js'))
     .pipe(buffer())
-    .pipe(sourcemaps ? sourcemaps.init({ loadMaps: true }) : noop())
+    .pipe(sourcemaps ? sourcemaps.init() : noop())
       .pipe(uglify())
       .on('error', log.error)
-    .pipe(sourcemaps ? sourcemaps.write() : noop())
+    .pipe(sourcemaps ? sourcemaps.write('./maps') : noop())
     .pipe(gulp.dest(jsConfig.build));
 
   globby([jsConfig.src]).then(entries => {
