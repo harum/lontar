@@ -2,10 +2,10 @@
 const env = ((process.env.NODE_ENV || 'development').trim().toLowerCase());
 const devBuild = env === 'development';
 
-// directory locations
-const dir = {
+// assets directory locations
+const assetsDir = {
   src: 'src/',
-  build: 'build/',
+  dest: 'www/assets/',
 };
 
 // global modules
@@ -31,12 +31,17 @@ var through = require('through2');
 var log = require('gulplog');
 var uglify = require('gulp-uglify-es').default;
 
-console.log('Gulp', devBuild ? 'development' : 'production', 'build');
+const rename = require("gulp-rename");
+const htmlmin = require('gulp-htmlmin');
+const strip = require('gulp-strip-comments');
+const hb = require('gulp-hb');
+
+console.log('Gulp', devBuild ? 'development' : 'production', 'dest');
 
 // images task
 const imgConfig = {
-  src: `${dir.src}images/**/*`,
-  build: `${dir.build}images/`,
+  src: `${assetsDir.src}images/**/*`,
+  dest: `${assetsDir.dest}images/`,
   minOptions: {
     optimizationLevel: 5,
   },
@@ -44,19 +49,19 @@ const imgConfig = {
 
 function images(cb) {
   gulp.src(imgConfig.src)
-    .pipe(newer(imgConfig.build))
+    .pipe(newer(imgConfig.dest))
     .pipe(imagemin(imgConfig.minOptions))
     .pipe(size({ showFiles: true }))
-    .pipe(gulp.dest(imgConfig.build));
+    .pipe(gulp.dest(imgConfig.dest));
 
   cb();
 };
 
 // css task
 const cssConfig = {
-  src: `${dir.src}scss/main.scss`,
-  watch: `${dir.src}scss/**/*`,
-  build: `${dir.build}css/`,
+  src: `${assetsDir.src}scss/main.scss`,
+  watch: `${assetsDir.src}scss/**/*`,
+  dest: `${assetsDir.dest}css/`,
   sassOptions: {
     sourceMap: devBuild,
     outputStyle: 'nested',
@@ -67,7 +72,7 @@ const cssConfig = {
   postCssOptions: [
     postcssAssets({
       loadPath: ['images/'],
-      basePath: dir.build,
+      basePath: assetsDir.dest,
     }),
     autoprefixer({
       browsers: ['> 1%'],
@@ -88,37 +93,17 @@ function css(cb) {
     .pipe(postcss(cssConfig.postCssOptions))
     .pipe(sourcemaps ? sourcemaps.write() : noop())
     .pipe(size({ showFiles: true }))
-    .pipe(gulp.dest(cssConfig.build))
+    .pipe(gulp.dest(cssConfig.dest))
     .pipe(browsersync ? browsersync.reload({ stream: true }) : noop())
 
   cb();
 };
 
-// browser-sync task
-const syncConfig = {
-  server: {
-    baseDir: './',
-    index: 'index.html',
-  },
-  port: 8000,
-  files: `${dir.build}**/*`,
-  open: false,
-};
-
-function sync(cb) {
-  browsersync ? browsersync.init(syncConfig) : null;
-  cb();
-};
-
-gulp.watch(imgConfig.src, images);
-gulp.watch(cssConfig.watch, css);
-
-
 // JavaScript
 const jsConfig = {
-  src: `${dir.src}/js/index.js`,
-  watch: `${dir.src}js/**/*`,
-  build: `${dir.build}js/`,
+  src: `${assetsDir.src}/js/index.js`,
+  watch: `${assetsDir.src}js/**/*`,
+  dest: `${assetsDir.dest}js/`,
 };
 
 function js(cb) {
@@ -131,7 +116,7 @@ function js(cb) {
       .pipe(uglify())
       .on('error', log.error)
     .pipe(sourcemaps ? sourcemaps.write('./maps') : noop())
-    .pipe(gulp.dest(jsConfig.build));
+    .pipe(gulp.dest(jsConfig.dest));
 
   globby([jsConfig.src]).then(entries => {
     const b = browserify({
@@ -147,8 +132,55 @@ function js(cb) {
   cb();
 };
 
+// HTML dan pages
+// assets directory locations
+const pagesDir = {
+  src: 'pages',
+  dest: 'www/',
+};
+
+function generatePages() {
+  return gulp
+    .src(`${pagesDir.src}/pages/**/*hbs`)
+    .pipe(hb()
+      .partials(`${pagesDir.src}/partials/**/*.hbs`)
+      .helpers(`${pagesDir.src}/helpers/*.js`)
+      .data(`${pagesDir.src}/data/**/*.json`)
+    )
+    .pipe(rename(function (path) {
+      path.extname = ".html";
+    }))
+    .pipe(strip())
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(gulp.dest(pagesDir.dest));
+};
+
+// browser-sync task
+const syncConfig = {
+  server: {
+    baseDir: './www/',
+    index: 'index.html',
+  },
+  port: 8000,
+  files: `./www/**/*`,
+  open: false,
+};
+
+function sync(cb) {
+  browsersync ? browsersync.init(syncConfig) : null;
+  cb();
+};
+
+
+// watch
+gulp.watch(imgConfig.src, images);
+gulp.watch(cssConfig.watch, css);
+gulp.watch(pagesDir.src, generatePages);
+
+
 exports.images = images;
 exports.css = gulp.series(css, images);
 exports.sync = sync;
 exports.js = js;
-exports.default = gulp.series(css, sync);
+exports.generatePages = generatePages;
+exports.default = gulp.series(gulp.parallel(css, js, generatePages), sync);
