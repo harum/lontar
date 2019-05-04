@@ -23,13 +23,13 @@ const autoprefixer = require('autoprefixer');
 const usedcss = require('usedcss');
 const cssnano = require('cssnano');
 
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var globby = require('globby');
-var through = require('through2');
-var log = require('gulplog');
-var uglify = require('gulp-uglify-es').default;
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const globby = require('globby');
+const through = require('through2');
+const log = require('gulplog');
+const uglify = require('gulp-uglify-es').default;
 
 const rename = require("gulp-rename");
 const htmlmin = require('gulp-htmlmin');
@@ -135,8 +135,8 @@ function js(cb) {
 // HTML dan pages
 // assets directory locations
 const pagesDir = {
-  src: 'pages',
-  dest: 'www/',
+  src: './pages',
+  dest: './www/',
 };
 
 function generatePages() {
@@ -145,7 +145,7 @@ function generatePages() {
     .pipe(hb()
       .partials(`${pagesDir.src}/partials/**/*.hbs`)
       .helpers(`${pagesDir.src}/helpers/*.js`)
-      .data(`${pagesDir.src}/data/**/*.json`)
+      .data([`${pagesDir.src}/data/*.{js,json}`])
     )
     .pipe(rename(function (path) {
       path.extname = ".html";

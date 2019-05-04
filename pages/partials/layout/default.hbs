@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{ base_title }}</title>
-  <link rel="stylesheet" media="all" href="{{ css_path }}">
+  <title>{{ site.base_title }}</title>
+  <link rel="stylesheet" media="all" href="{{ site.css_path }}">
 </head>
 <body>
   <h1>Layout Halo 2</h1>
+  <h2>{{ site.base_title }}<h2>
 
   <a href="/">Home</a>
   <a href="/about.html">about</a>
@@ -13,6 +14,6 @@
   {{#> content-block}}
   {{/content-block}}
 
-  <script src="{{ js_path }}"></script>
+  <script src="{{ site.js_path }}"></script>
 </body>
 </html>
