@@ -35,6 +35,8 @@ const rename = require("gulp-rename");
 const htmlmin = require('gulp-htmlmin');
 const strip = require('gulp-strip-comments');
 const hb = require('gulp-hb');
+const data = require('gulp-data');
+const frontMatter = require('gulp-front-matter');
 
 console.log('Gulp', devBuild ? 'development' : 'production', 'dest');
 
@@ -141,17 +143,40 @@ const pagesDir = {
 
 function generatePages() {
   return gulp
-    .src(`${pagesDir.src}/pages/**/*hbs`)
-    .pipe(hb()
-      .partials(`${pagesDir.src}/partials/**/*.hbs`)
+    .src([
+      `${pagesDir.src}/pages/*.{html,hbs}`,
+      `${pagesDir.src}/pages/**/*.{html,hbs}`,
+    ])
+
+    // Load an associated JSON file per post.
+    .pipe(data((file) => {
+      try {
+        return require(file.path.replace(/\.(html|hbs)/, '.json'));
+      } catch (e) {
+        return {};
+      }
+    }))
+
+    // Parse front matter from post file.
+    .pipe(frontMatter({
+      property: 'data',
+      remove: true,
+    }))
+
+    // Main handlebars process
+    .pipe(hb({ debug: 2 })
+      .partials(`${pagesDir.src}/partials/**/*.{html,hbs}`)
       .helpers(`${pagesDir.src}/helpers/*.js`)
       .data([`${pagesDir.src}/data/*.{js,json}`])
     )
     .pipe(rename(function (path) {
       path.extname = ".html";
     }))
+
+    // Optimization
     .pipe(strip())
     .pipe(htmlmin({ collapseWhitespace: true }))
+
     .pipe(gulp.dest(pagesDir.dest));
 };
 
@@ -175,7 +200,7 @@ function sync(cb) {
 // watch
 gulp.watch(imgConfig.src, images);
 gulp.watch(cssConfig.watch, css);
-gulp.watch(pagesDir.src, generatePages);
+gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 
 
 exports.images = images;
