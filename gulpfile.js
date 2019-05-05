@@ -163,6 +163,20 @@ function generatePages() {
       remove: true,
     }))
 
+    // Wrap the layout
+    // Place it after front matter is removed
+    .pipe(through.obj(function(file, _, cb) {
+      if (file.isBuffer()) {
+        const contentWithLayout =
+          '{{#> layout/default }}{{#*inline "content-block"}}' +
+          file.contents.toString() +
+          '{{/inline}}{{/layout/default }}';
+
+        file.contents = Buffer.from(contentWithLayout);
+      }
+      cb(null, file);
+    }))
+
     // Main handlebars process
     .pipe(hb({ debug: 2 })
       .partials(`${pagesDir.src}/partials/**/*.{html,hbs}`)
