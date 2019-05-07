@@ -167,10 +167,13 @@ function generatePages() {
     // Place it after front matter is removed
     .pipe(through.obj(function(file, _, cb) {
       if (file.isBuffer()) {
+        const layoutName = file.data.layout || 'default';
+        const layoutString = `layout/${layoutName}`;
+
         const contentWithLayout =
-          '{{#> layout/default }}{{#*inline "content-block"}}' +
+          `{{#> ${layoutString} }}{{#*inline "content-block"}}` +
           file.contents.toString() +
-          '{{/inline}}{{/layout/default }}';
+          `{{/inline}}{{/${layoutString} }}`;
 
         file.contents = Buffer.from(contentWithLayout);
       }
