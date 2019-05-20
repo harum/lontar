@@ -168,7 +168,7 @@ function generatePages() {
     .pipe(through.obj(function(file, _, cb) {
       if (file.isBuffer()) {
         const layoutName = file.data.layout || 'default';
-        const layoutString = `layout/${layoutName}`;
+        const layoutString = `layouts/${layoutName}`;
 
         const contentWithLayout =
           `{{#> ${layoutString} }}{{#*inline "content-block"}}` +
@@ -181,7 +181,7 @@ function generatePages() {
     }))
 
     // Main handlebars process
-    .pipe(hb({ debug: 2 })
+    .pipe(hb()
       .partials(`${pagesDir.src}/partials/**/*.{html,hbs}`)
       .helpers(`${pagesDir.src}/helpers/*.js`)
       .data([`${pagesDir.src}/data/*.{js,json}`])

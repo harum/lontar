@@ -10,7 +10,9 @@ Lontar is minimalist static site generator. It use [Gulp](https://gulpjs.com/) a
 │   ├── data           // global variable that will be used on page templates
 │   ├── layouts        // layout can have different html header, css, or js
 │   ├── pages          // main content page
-│   └── partials       // partials that used in layouts or pages
+│   └── partials       // partials that used pages
+│       ├── includes       // partials that used in layouts or pages
+│       └── layouts        // partials that used as layouts
 ├── src             // assets
 │   ├── images         // images
 │   ├── js             // JavaScript entries and modules
