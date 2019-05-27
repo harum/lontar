@@ -1,5 +1,5 @@
 module.exports = {
+  author: 'Putu Harum Bawa',
   base_title: 'Harum Bawa',
-  css_path: 'assets/css/main.css',
-  js_path: 'assets/js/index.js'
+  site_name: 'harumbawa.com',
 };

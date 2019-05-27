@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>{{ site.base_title }}</title>
-  <link rel="stylesheet" media="all" href="{{ site.css_path }}">
-</head>
-<body>
-  <h1>Layout Default</h1>
-  <h2>{{ site.base_title }}</h2>
-  <h2>{{ title }}</h2>
-  <h2>{{ description }}</h2>
+<html dir="ltr" lang="en">
+  <head>
+    {{> includes/meta }}
+    <link rel="stylesheet" media="all" href="assets/css/main.css">
+  </head>
 
-  <a href="/">Home</a>
-  <a href="/about.html">about</a>
-  <a href="/welcome.html">welcome</a>
-  {{#> content-block}}
-  {{/content-block}}
+  <body>
+    {{> includes/header }}
 
-  {{> includes/footer }}
-  <script src="{{ site.js_path }}"></script>
-</body>
+    <main role="main">
+      <h1>{{ title }}</h1>
+      {{#> content-block}}
+      {{/content-block}}
+    </main>
+
+    {{> includes/footer }}
+
+    <script src="assets/js/index.js"></script>
+  </body>
 </html>
