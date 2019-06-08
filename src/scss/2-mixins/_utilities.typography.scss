@@ -1,0 +1,18 @@
+@mixin text {
+  color: var(--color-text);
+  font-weight: var(--text-font-weight);
+  font-family: var(--text-font-family);
+  line-height: var(--text-line-height);
+  direction: ltr;
+  text-align: left;
+}
+
+@mixin code {
+  display: inline;
+  margin: 0 calc(-1 * var(--spacing-tiny));
+  padding: var(--spacing-xsmall) var(--spacing-xsmall) var(--spacing-tiny);
+  color: var(--color-text);
+  font-weight: var(--text-font-weight);
+  font-family: var(--text-font-family-mono);
+  background-color: var(--color-dark);
+}

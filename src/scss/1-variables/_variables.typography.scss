@@ -1,0 +1,12 @@
+/* Typography */
+
+:root {
+  --text-font-family-sans-serif: sans-serif;
+  --text-font-family-mono: monospace;
+  --text-font-family: var(--text-font-family-sans-serif);
+  --text-font-size-medium: 1em;
+  --text-font-size-small: 0.8em;
+  --text-font-weight: normal;
+  --text-font-weight-heavy: bold;
+  --text-line-height: 1.55;
+}

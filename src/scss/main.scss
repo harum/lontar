@@ -1,3 +1,26 @@
-// main.scss
+// structure base on https://github.com/BlazeSoftware
 
-@import 'base/_base';
+/* 1 variables */
+@import '1-variables/variables.colors';
+@import '1-variables/variables.screen';
+@import '1-variables/variables.spacing';
+@import '1-variables/variables.typography';
+
+/* 3 generic */
+@import '3-generic/generic.reset';
+
+/* 4 elements */
+@import '4-elements/elements.html';
+@import '4-elements/elements.code';
+@import '4-elements/elements.pre';
+
+/* 5 objects */
+@import '5-objects/objects.container';
+
+/* 6 components */
+@import '6-components/components.page';
+@import '6-components/components.navigation';
+
+/* 7 utilities */
+@import '7-utilities/utilities.boxing';
+@import '7-utilities/utilities.alignment';

@@ -1,0 +1,13 @@
+.menu {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+
+  &__item {
+    padding-left: var(--spacing-large);
+  }
+
+  &__item:first-child {
+    padding-left: 0;
+  }
+}

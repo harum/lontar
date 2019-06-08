@@ -1,0 +1,5 @@
+@import '../2-mixins/utilities.typography';
+
+code {
+  @include code;
+}

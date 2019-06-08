@@ -1,0 +1,11 @@
+@import '../2-mixins/utilities.typography';
+
+pre {
+  @include code;
+  display: block;
+  padding: var(--spacing-small) var(--spacing-medium);
+  overflow-x: auto;
+  white-space: pre;
+  word-wrap: normal;
+  border-radius: var(--border-radius);
+}
