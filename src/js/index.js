@@ -1,3 +1,3 @@
-const add = require('./add');
+const scrollTop = require('./scrollTop');
 
-console.log('hello', add(2, 3));
+scrollTop.init();

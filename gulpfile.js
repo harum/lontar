@@ -217,6 +217,7 @@ function sync(cb) {
 // watch
 gulp.watch(imgConfig.src, images);
 gulp.watch(cssConfig.watch, css);
+gulp.watch(jsConfig.watch, js);
 gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 
 
