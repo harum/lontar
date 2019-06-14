@@ -84,7 +84,7 @@ const cssConfig = {
 
 // remove unused selectors and minify production CSS
 if (!devBuild) {
-  cssConfig.postCssOptions.push(usedcss({ html: ['index.html'] }));
+  cssConfig.postCssOptions.push(usedcss({ html: ['www/*.html', 'www/**/*.html'] }));
   cssConfig.postCssOptions.push(cssnano);
 }
 
@@ -226,4 +226,4 @@ exports.css = gulp.series(css, images);
 exports.sync = sync;
 exports.js = js;
 exports.generatePages = generatePages;
-exports.default = gulp.series(gulp.parallel(css, js, generatePages), sync);
+exports.default = gulp.series(generatePages, gulp.parallel(images, css, js), sync);
