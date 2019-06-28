@@ -24,7 +24,10 @@
     "usedcss": "^1.0.7"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babelify": "^10.0.0",
+    "browser-sync": "^2.26.7",
     "browserify": "^16.2.3",
     "globby": "^9.2.0",
     "gulp-hb": "^8.0.0",

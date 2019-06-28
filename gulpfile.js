@@ -101,32 +101,52 @@ function css(cb) {
   cb();
 };
 
-// JavaScript
-const jsConfig = {
+// JavaScript Module
+const jsModuleConfig = {
+  src: `${assetsDir.src}/js/**/*`,
+  watch: `${assetsDir.src}js/**/*`,
+  dest: `${assetsDir.dest}module/`,
+};
+
+function jsModule(cb) {
+  gulp.src(jsModuleConfig.src)
+    .pipe(devBuild ? noop() : uglify())
+    .pipe(gulp.dest(jsModuleConfig.dest));
+
+  cb();
+};
+
+// JavaScript bundle for older browser
+const jsBundleConfig = {
   src: `${assetsDir.src}/js/index.js`,
   watch: `${assetsDir.src}js/**/*`,
   dest: `${assetsDir.dest}js/`,
 };
 
-function js(cb) {
+function jsBundle(cb) {
   const bundledStream = through();
 
   bundledStream
     .pipe(source('index.js'))
     .pipe(buffer())
     .pipe(sourcemaps ? sourcemaps.init() : noop())
-      .pipe(uglify())
-      .on('error', log.error)
+    .pipe(devBuild ? noop() : uglify())
+    .on('error', log.error)
     .pipe(sourcemaps ? sourcemaps.write('./maps') : noop())
-    .pipe(gulp.dest(jsConfig.dest));
+    .pipe(gulp.dest(jsBundleConfig.dest));
 
-  globby([jsConfig.src]).then(entries => {
+  globby([jsBundleConfig.src]).then(entries => {
     const b = browserify({
       entries,
       debug: true,
     });
 
-    b.bundle().pipe(bundledStream);
+    b
+      .transform("babelify", {
+        presets: ["@babel/preset-env"]
+      })
+      .bundle()
+      .pipe(bundledStream);
   }).catch(err => {
     bundledStream.emit('error', err);
   });
@@ -217,13 +237,15 @@ function sync(cb) {
 // watch
 gulp.watch(imgConfig.src, images);
 gulp.watch(cssConfig.watch, css);
-gulp.watch(jsConfig.watch, js);
+gulp.watch(jsModuleConfig.watch, jsModule);
+gulp.watch(jsBundleConfig.watch, jsBundle);
 gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 
 
 exports.images = images;
 exports.css = gulp.series(css, images);
 exports.sync = sync;
-exports.js = js;
+exports.jsModule = jsModule;
+exports.jsBundle = jsBundle;
 exports.generatePages = generatePages;
-exports.default = gulp.series(generatePages, gulp.parallel(images, css, js), sync);
+exports.default = gulp.series(generatePages, gulp.parallel(images, css, jsModule, jsBundle), sync);

@@ -1,9 +1,6 @@
-module.exports = (function() {
+export default (function() {
   return {
     init() {
-      const xx = 'rosokA';
-      const yy = xx + 'holla';
-      console.log('xx', yy);
       const btn = document.getElementById('scroll-top-button');
 
       btn.addEventListener('click', function(e) {

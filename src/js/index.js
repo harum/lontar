@@ -1,3 +1,3 @@
-const scrollTop = require('./scrollTop');
+import scrollTop from './scrollTop.js';
 
 scrollTop.init();
