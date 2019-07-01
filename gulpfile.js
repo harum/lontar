@@ -102,6 +102,21 @@ function css(cb) {
 };
 
 // JavaScript Module
+const serviceWorkerConfig = {
+  src: `${assetsDir.src}/js/serviceWorker.js`,
+  watch: `${assetsDir.src}js/serviceWorker.js`,
+  dest: 'www',
+};
+
+function serviceWorker(cb) {
+  gulp.src(serviceWorkerConfig.src)
+    .pipe(devBuild ? noop() : uglify())
+    .pipe(gulp.dest(serviceWorkerConfig.dest));
+
+  cb();
+};
+
+// JavaScript Module
 const jsModuleConfig = {
   src: `${assetsDir.src}/js/**/*`,
   watch: `${assetsDir.src}js/**/*`,
@@ -237,6 +252,7 @@ function sync(cb) {
 // watch
 gulp.watch(imgConfig.src, images);
 gulp.watch(cssConfig.watch, css);
+gulp.watch(serviceWorkerConfig.watch, serviceWorker);
 gulp.watch(jsModuleConfig.watch, jsModule);
 gulp.watch(jsBundleConfig.watch, jsBundle);
 gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
@@ -245,7 +261,8 @@ gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 exports.images = images;
 exports.css = gulp.series(css, images);
 exports.sync = sync;
+exports.serviceWorker = serviceWorker;
 exports.jsModule = jsModule;
 exports.jsBundle = jsBundle;
 exports.generatePages = generatePages;
-exports.default = gulp.series(generatePages, gulp.parallel(images, css, jsModule, jsBundle), sync);
+exports.default = gulp.series(generatePages, gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), sync);
