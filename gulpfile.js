@@ -30,6 +30,7 @@ const globby = require('globby');
 const through = require('through2');
 const log = require('gulplog');
 const uglify = require('gulp-uglify-es').default;
+const gzip = require('gulp-gzip');
 
 const rename = require("gulp-rename");
 const htmlmin = require('gulp-htmlmin');
@@ -101,7 +102,20 @@ function css(cb) {
   cb();
 };
 
-// JavaScript Module
+// gzip assets
+function gzipAssets(cb) {
+  gulp.src([
+    `${assetsDir.dest}**/*.js`,
+    `${assetsDir.dest}**/*.css`,
+  ])
+    .pipe(gzip())
+    .pipe(size({ showFiles: true }))
+    .pipe(gulp.dest(assetsDir.dest));
+
+  cb();
+};
+
+// Service worker
 const serviceWorkerConfig = {
   src: `${assetsDir.src}/js/serviceWorker.js`,
   watch: `${assetsDir.src}js/serviceWorker.js`,
@@ -111,6 +125,7 @@ const serviceWorkerConfig = {
 function serviceWorker(cb) {
   gulp.src(serviceWorkerConfig.src)
     .pipe(devBuild ? noop() : uglify())
+    .pipe(size({ showFiles: true }))
     .pipe(gulp.dest(serviceWorkerConfig.dest));
 
   cb();
@@ -126,6 +141,7 @@ const jsModuleConfig = {
 function jsModule(cb) {
   gulp.src(jsModuleConfig.src)
     .pipe(devBuild ? noop() : uglify())
+    .pipe(size({ showFiles: true }))
     .pipe(gulp.dest(jsModuleConfig.dest));
 
   cb();
@@ -148,6 +164,7 @@ function jsBundle(cb) {
     .pipe(devBuild ? noop() : uglify())
     .on('error', log.error)
     .pipe(sourcemaps ? sourcemaps.write('./maps') : noop())
+    .pipe(size({ showFiles: true }))
     .pipe(gulp.dest(jsBundleConfig.dest));
 
   globby([jsBundleConfig.src]).then(entries => {
@@ -228,6 +245,7 @@ function generatePages() {
     // Optimization
     .pipe(strip())
     .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(size({ showFiles: true }))
 
     .pipe(gulp.dest(pagesDir.dest));
 };
@@ -261,8 +279,9 @@ gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 exports.images = images;
 exports.css = gulp.series(css, images);
 exports.sync = sync;
+exports.gzipAssets = gzipAssets;
 exports.serviceWorker = serviceWorker;
 exports.jsModule = jsModule;
 exports.jsBundle = jsBundle;
 exports.generatePages = generatePages;
-exports.default = gulp.series(generatePages, gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), sync);
+exports.default = gulp.series(generatePages, gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), gzipAssets, sync);

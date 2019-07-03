@@ -30,6 +30,7 @@
     "browser-sync": "^2.26.7",
     "browserify": "^16.2.3",
     "globby": "^9.2.0",
+    "gulp-gzip": "^1.4.2",
     "gulp-hb": "^8.0.0",
     "gulp-htmlmin": "^5.0.1",
     "gulp-rename": "^1.4.0",
