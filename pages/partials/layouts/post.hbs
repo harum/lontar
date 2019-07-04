@@ -14,7 +14,8 @@
       class="page__content"
     >
       <article>
-        <h1>{{ title }}</h1>
+        <h1 class="u-mrgn-bottom--0">{{ title }}</h1>
+        <time datetime="{{ date }}">{{ date }}</time>
         {{#> content-block}}
         {{/content-block}}
       </article>
