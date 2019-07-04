@@ -14,6 +14,7 @@ const noop = require('gulp-noop');
 const newer = require('gulp-newer');
 const size = require('gulp-size');
 const imagemin = require('gulp-imagemin');
+const webp = require('gulp-webp');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
 const sourcemaps = devBuild ? require('gulp-sourcemaps') : null;
@@ -43,7 +44,7 @@ console.log('Gulp', devBuild ? 'development' : 'production', 'dest');
 
 // images task
 const imgConfig = {
-  src: `${assetsDir.src}images/**/*`,
+  src: `${assetsDir.src}images/**/*.{svg, gif}`,
   dest: `${assetsDir.dest}images/`,
   minOptions: {
     optimizationLevel: 5,
@@ -54,6 +55,16 @@ function images(cb) {
   gulp.src(imgConfig.src)
     .pipe(newer(imgConfig.dest))
     .pipe(imagemin(imgConfig.minOptions))
+    .pipe(size({ showFiles: true }))
+    .pipe(gulp.dest(imgConfig.dest));
+
+  cb();
+};
+
+function imagesWebp(cb) {
+  gulp.src(`${assetsDir.src}images/**/*.{png,jpg,jpeg}`)
+    .pipe(newer(imgConfig.dest))
+    .pipe(webp())
     .pipe(size({ showFiles: true }))
     .pipe(gulp.dest(imgConfig.dest));
 
@@ -276,7 +287,7 @@ gulp.watch(jsModuleConfig.watch, jsModule);
 gulp.watch(jsBundleConfig.watch, jsBundle);
 gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 
-const generateAssets = gulp.series(gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), gzipAssets);
+const generateAssets = gulp.series(gulp.parallel(images, imagesWebp, css, serviceWorker, jsModule, jsBundle), gzipAssets);
 
 exports.images = images;
 exports.css = gulp.series(css, images);
