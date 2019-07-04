@@ -105,12 +105,13 @@ function css(cb) {
 // gzip assets
 function gzipAssets(cb) {
   gulp.src([
-    `${assetsDir.dest}**/*.js`,
-    `${assetsDir.dest}**/*.css`,
+    'www/**/*.js',
+    'www/**/*.css',
+    'www/**/*.html',
   ])
-    .pipe(gzip())
+    .pipe(gzip({ threshold: '1kb' }))
     .pipe(size({ showFiles: true }))
-    .pipe(gulp.dest(assetsDir.dest));
+    .pipe(gulp.dest('www'));
 
   cb();
 };
@@ -275,6 +276,7 @@ gulp.watch(jsModuleConfig.watch, jsModule);
 gulp.watch(jsBundleConfig.watch, jsBundle);
 gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 
+const generateAssets = gulp.series(gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), gzipAssets);
 
 exports.images = images;
 exports.css = gulp.series(css, images);
@@ -284,4 +286,5 @@ exports.serviceWorker = serviceWorker;
 exports.jsModule = jsModule;
 exports.jsBundle = jsBundle;
 exports.generatePages = generatePages;
-exports.default = gulp.series(generatePages, gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), gzipAssets, sync);
+exports.generateAssets = generateAssets;
+exports.default = gulp.series(generatePages, generateAssets, sync);

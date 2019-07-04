@@ -1,4 +1,4 @@
-const CACHE = 'v1-010';
+const CACHE = 'v1-011';
 
 self.addEventListener('install', event => {
   console.log('Installing version: ', CACHE);
