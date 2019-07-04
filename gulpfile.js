@@ -44,7 +44,7 @@ console.log('Gulp', devBuild ? 'development' : 'production', 'dest');
 
 // images task
 const imgConfig = {
-  src: `${assetsDir.src}images/**/*.{svg, gif}`,
+  src: `${assetsDir.src}images/**/*`,
   dest: `${assetsDir.dest}images/`,
   minOptions: {
     optimizationLevel: 5,
@@ -61,15 +61,15 @@ function images(cb) {
   cb();
 };
 
-function imagesWebp(cb) {
-  gulp.src(`${assetsDir.src}images/**/*.{png,jpg,jpeg}`)
-    .pipe(newer(imgConfig.dest))
-    .pipe(webp())
-    .pipe(size({ showFiles: true }))
-    .pipe(gulp.dest(imgConfig.dest));
-
-  cb();
-};
+// function imagesWebp(cb) {
+//   gulp.src(`${assetsDir.src}images/**/*.{png,jpg,jpeg}`)
+//     .pipe(newer(imgConfig.dest))
+//     .pipe(webp())
+//     .pipe(size({ showFiles: true }))
+//     .pipe(gulp.dest(imgConfig.dest));
+// 
+//   cb();
+// };
 
 // css task
 const cssConfig = {
@@ -287,7 +287,7 @@ gulp.watch(jsModuleConfig.watch, jsModule);
 gulp.watch(jsBundleConfig.watch, jsBundle);
 gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
 
-const generateAssets = gulp.series(gulp.parallel(images, imagesWebp, css, serviceWorker, jsModule, jsBundle), gzipAssets);
+const generateAssets = gulp.series(gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), gzipAssets);
 
 exports.images = images;
 exports.css = gulp.series(css, images);
