@@ -1,4 +1,4 @@
-const scrollerTop = (function() {
+export default (function() {
   return {
     init() {
       const btn = document.getElementById('scroll-top-button');
@@ -13,10 +13,8 @@ const scrollerTop = (function() {
 
       window.addEventListener('scroll', function(e) {
         const action = window.scrollY > 150 ? 'add' : 'remove';
-        btn.classList[action]('show');
+        btn.classList[action]('c-scroll-top-button--visible');
       });
     }
   };
 }());
-
-export default scrollerTop;

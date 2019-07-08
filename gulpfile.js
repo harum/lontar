@@ -96,7 +96,10 @@ const cssConfig = {
 
 // remove unused selectors and minify production CSS
 if (!devBuild) {
-  cssConfig.postCssOptions.push(usedcss({ html: ['www/*.html', 'www/**/*.html'] }));
+  // cssConfig.postCssOptions.push(usedcss({
+  //   html: ['www/*.html', 'www/**/*.html'],
+  //   js: ['www/*.js', 'www/**/*.js'],
+  // }));
   cssConfig.postCssOptions.push(cssnano);
 }
 
