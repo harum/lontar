@@ -1,4 +1,4 @@
-export default (function() {
+const scrollerTop = (function() {
   return {
     init() {
       const btn = document.getElementById('scroll-top-button');
@@ -18,3 +18,5 @@ export default (function() {
     }
   };
 }());
+
+export default scrollerTop;

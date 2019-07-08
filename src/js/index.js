@@ -1,6 +1,5 @@
-import scrollTop from './scrollTop.js';
+import scrollerTop from './scrollerTop.js';
 import registerServiceWorker from './registerServiceWorker.js';
-// import './prism.js';
 
-scrollTop.init();
+scrollerTop.init();
 registerServiceWorker();
