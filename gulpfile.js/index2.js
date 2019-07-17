@@ -201,6 +201,37 @@ function jsBundle(cb) {
   cb();
 };
 
+// Design pattern page
+const patternDir = {
+  src: './projects/designSystem/docs',
+  dest: './projects/designSystem/www',
+};
+
+function generatePatternPages() {
+  return gulp
+    .src([
+      `${patternDir.src}/*.{html,hbs}`,
+    ])
+
+
+    // Main handlebars process
+    .pipe(hb()
+      .partials(`${pagesDir.src}/partials/**/*.{html,hbs}`)
+    )
+    .pipe(rename(function (path) {
+      path.extname = ".html";
+    }))
+
+    // omit optimization for now
+    // Optimization
+    // .pipe(strip())
+    // .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(size({ showFiles: true }))
+
+    .pipe(gulp.dest(patternDir.dest));
+};
+
+
 // HTML dan pages
 // assets directory locations
 const pagesDir = {
@@ -289,8 +320,14 @@ gulp.watch(serviceWorkerConfig.watch, serviceWorker);
 gulp.watch(jsModuleConfig.watch, jsModule);
 gulp.watch(jsBundleConfig.watch, jsBundle);
 gulp.watch(`${pagesDir.src}/**/*.*`, generatePages);
+gulp.watch(`${patternDir.src}/**/*.*`, generatePatternPages);
 
 const generateAssets = gulp.series(gulp.parallel(images, css, serviceWorker, jsModule, jsBundle), gzipAssets);
+
+function designPattern() {
+  generatePatternPages();
+  gulp.watch(`${patternDir.src}/**/*.*`, generatePatternPages);
+};
 
 exports.images = images;
 exports.css = gulp.series(css, images);
@@ -301,4 +338,6 @@ exports.jsModule = jsModule;
 exports.jsBundle = jsBundle;
 exports.generatePages = generatePages;
 exports.generateAssets = generateAssets;
+exports.generatePatternPages = generatePatternPages;
+exports.designPattern = designPattern;
 exports.default = gulp.series(generatePages, generateAssets, sync);
