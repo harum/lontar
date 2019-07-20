@@ -54,25 +54,27 @@ function cssGenerator(customSetting) {
     ...setting.watch,
   ];
 
+  function generateCss(cb) {
+    gulp
+      .src(setting.src)
+      .pipe(sourcemaps ? sourcemaps.init() : noop())
+      .pipe(sass(setting.sassOptions).on('error', sass.logError))
+      .pipe(postcss(setting.postCssOptions))
+      .pipe(sourcemaps ? sourcemaps.write() : noop())
+      .pipe(size({ showFiles: true }))
+      .pipe(gulp.dest(setting.dest));
+
+    cb();
+  };
+
   return {
-    generate() {
-      generateCss(setting);
-    },
-    watch() {
-      gulp.watch(watchFiles, () => generateCss(setting));
+    generateCss,
+    watch(cb) {
+      gulp.watch(watchFiles, generateCss);
+
+      cb();
     },
   };
-};
-
-function generateCss(setting) {
-  return gulp
-    .src(setting.src)
-    .pipe(sourcemaps ? sourcemaps.init() : noop())
-    .pipe(sass(setting.sassOptions).on('error', sass.logError))
-    .pipe(postcss(setting.postCssOptions))
-    .pipe(sourcemaps ? sourcemaps.write() : noop())
-    .pipe(size({ showFiles: true }))
-    .pipe(gulp.dest(setting.dest));
 };
 
 module.exports = cssGenerator;
