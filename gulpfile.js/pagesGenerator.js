@@ -33,72 +33,75 @@ function pagesGenerator(customSetting) {
     ...setting.data,
   ];
 
+  function generatePage(cb) {
+    gulp
+      .src(setting.src)
+
+      // Load data that will be used in page
+      // Load an associated JSON file per page.
+      .pipe(setting.data.length === 0 ? noop() : data((file) => {
+        try {
+          return require(file.path.replace(/\.(html|hbs)/, '.json'));
+        } catch (e) {
+          return {};
+        }
+      }))
+      // Parse front matter from page.
+      .pipe(frontMatter({
+        property: 'data',
+        remove: true,
+      }))
+      // End of - Load data that will be used in page
+
+      // Layout handler
+      // Wrap content inside layout
+      // Use suitable layout if include in front matter
+      // Only place it after front matter is removed
+      .pipe(through.obj(function(file, _, cb) {
+        if (file.isBuffer()) {
+          let layout = file.data.layout;
+          if (!layout) {
+            cb(null, file);
+            return;
+          }
+
+          layout = `layouts/${layout}`;
+          const contentWithLayout =
+            `{{#> ${layout} }}{{#*inline "content-block"}}` +
+            file.contents.toString() +
+            `{{/inline}}{{/${layout} }}`;
+
+          file.contents = Buffer.from(contentWithLayout);
+        }
+        cb(null, file);
+      }))
+      // End of - Layout handler
+
+      // Main handlebars process
+      .pipe(hb()
+        .partials(setting.src.partials)
+        .helpers(setting.src.helpers)
+        .data(setting.src.data)
+      )
+      .pipe(rename(function (path) {
+        path.extname = ".html";
+      }))
+      // End of - Main handlebars process
+
+      .pipe(gulp.dest(setting.dest));
+
+    cb();
+  };
+
   return {
-    generate() {
-      generatePages(setting);
-    },
-    watch() {
-      gulp.watch(watchFiles, () => generatePages(setting));
+    generatePage,
+    watch(cb) {
+      gulp.watch(watchFiles, generatePage);
+
+      cb();
     },
   };
 };
 
-function generatePages(setting) {
-  return gulp
-    .src(setting.src)
-
-    // Load data that will be used in page
-    // Load an associated JSON file per page.
-    .pipe(setting.data.length === 0 ? noop() : data((file) => {
-      try {
-        return require(file.path.replace(/\.(html|hbs)/, '.json'));
-      } catch (e) {
-        return {};
-      }
-    }))
-    // Parse front matter from page.
-    .pipe(frontMatter({
-      property: 'data',
-      remove: true,
-    }))
-    // End of - Load data that will be used in page
-
-    // Layout handler
-    // Wrap content inside layout
-    // Use suitable layout if include in front matter
-    // Only place it after front matter is removed
-    .pipe(through.obj(function(file, _, cb) {
-      if (file.isBuffer()) {
-        let layout = file.data.layout;
-        if (!layout) {
-          cb(null, file);
-          return;
-        }
-
-        layout = `layouts/${layout}`;
-        const contentWithLayout =
-          `{{#> ${layout} }}{{#*inline "content-block"}}` +
-          file.contents.toString() +
-          `{{/inline}}{{/${layout} }}`;
-
-        file.contents = Buffer.from(contentWithLayout);
-      }
-      cb(null, file);
-    }))
-    // End of - Layout handler
-
-    // Main handlebars process
-    .pipe(hb()
-      .partials(setting.src.partials)
-      .helpers(setting.src.helpers)
-      .data(setting.src.data)
-    )
-    .pipe(rename(function (path) {
-      path.extname = ".html";
-    }))
-    // End of - Main handlebars process
-
-    .pipe(gulp.dest(setting.dest));
-};
 
 module.exports = pagesGenerator;
