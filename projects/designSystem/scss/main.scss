@@ -13,6 +13,17 @@
 @import '4-elements/elements.pre';
 @import '4-elements/elements.blockquote';
 @import '4-elements/elements.cite';
+@import '4-elements/elements.time';
+
+// 5-objects
+@import '5-objects/objects.container';
+@import '5-objects/objects.page';
+
+// 6-objects
+@import '6-components/components.navigation';
+@import '6-components/components.avatar';
 
 // 7-utilities
-@import '7-utilities/utilities.size';
+// @import '7-utilities/utilities.size';
+@import '7-utilities/utilities.spacing';
+@import '7-utilities/utilities.alignment';

@@ -1,11 +1,10 @@
 a {
   &, &:visited {
-    text-decoration: none;
-    color: var(--color-link);
+    color: var(--color-brand);
     transition: color 0.25s;
   }
 
   &:hover {
-    color: var(--color-brand);
+    color: var(--color-brand-light);
   }
 }

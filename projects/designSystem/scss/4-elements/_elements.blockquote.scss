@@ -10,6 +10,7 @@ blockquote {
 }
 
 blockquote::before {
+  font-family: var(--text-font-family);
   content: "\201C";
   color: var(--color-brand);
   position: absolute;

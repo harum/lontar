@@ -1,0 +1,9 @@
+.o-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.o-page__content {
+  flex-grow: 1;
+}
