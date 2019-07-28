@@ -79,9 +79,9 @@ function pagesGenerator(customSetting) {
 
       // Main handlebars process
       .pipe(hb()
-        .partials(setting.src.partials)
-        .helpers(setting.src.helpers)
-        .data(setting.src.data)
+        .partials(setting.partials)
+        .helpers(setting.helpers)
+        .data(setting.data)
       )
       .pipe(rename(function (path) {
         path.extname = ".html";

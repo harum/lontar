@@ -7,17 +7,20 @@ function designSystem() {
   const pageSetting = {
     dest: 'projects/designSystem/www',
     src: ['projects/designSystem/docs/*.{html,hbs}'],
-    partials: ['projects/designSystem/docs/partials/**/*.{html,hbs}'],
+    partials: [
+      'projects/designSystem/docs/partials/*.{html,hbs}',
+      'projects/designSystem/docs/partials/**/*.{html,hbs}',
+    ],
   };
 
   const cssSetting = {
-    dest: 'projects/designSystem/www/css',
+    dest: 'projects/designSystem/www/assets/css',
     src: ['projects/designSystem/scss/*.scss'],
     watch: ['projects/designSystem/scss/**/*.scss'],
   };
 
   const jsSetting = {
-    dest: 'projects/designSystem/www/js',
+    dest: 'projects/designSystem/www/assets/js',
     src: ['projects/designSystem/js/**/*.js'],
     entry: 'projects/designSystem/js/index.js',
   };
