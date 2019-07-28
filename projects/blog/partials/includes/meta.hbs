@@ -1,0 +1,35 @@
+<!--
+  the important things:
+  - Language should be included in the opening HTML tag
+  - Title tag unique for every page
+  - Meta charset important for correct rendering in browsers
+  - Meta description is what shows up in search engine results
+  - Robots meta tag only if you use noindex or nofollow
+  - Meta viewport for responsive design
+  - Canonical Tag addresses duplication issues with multiple/similar URLS
+  - Alternative text (Alt) Tag for images
+  - Heading tags for logical content creation with only one h1 per page
+-->
+
+<meta charset="UTF-8">
+<title>{{ title }}</title>
+<meta name="theme-color" content="#c73f29">
+
+<!--  Essential META Tags for  -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!--  Essential META Tags for SEO -->
+<meta name="description" content="{{ description }}">
+
+<!--  Essential Social Media META Tags -->
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:image" content="http://euro-travel-example.com/thumbnail.jpg">
+<meta property="og:url" content="http://euro-travel-example.com/index.htm">
+<meta name="twitter:card" content="summary_large_image">
+
+<!--  Non-Essential Social Media META Tags, But Recommended -->
+<meta property="og:site_name" content="{{ site.site_name }}">
+<meta name="twitter:image:alt" content="{{ title }}">
+
+<link rel="shortcut icon" type="image/png" href="/assets/images/logo.png"/>

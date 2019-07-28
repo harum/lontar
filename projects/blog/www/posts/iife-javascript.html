@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <!--
+      the important things:
+      - Language should be included in the opening HTML tag
+      - Title tag unique for every page
+      - Meta charset important for correct rendering in browsers
+      - Meta description is what shows up in search engine results
+      - Robots meta tag only if you use noindex or nofollow
+      - Meta viewport for responsive design
+      - Canonical Tag addresses duplication issues with multiple/similar URLS
+      - Alternative text (Alt) Tag for images
+      - Heading tags for logical content creation with only one h1 per page
+    -->
+    
+    <meta charset="UTF-8">
+    <title>IIFE JavaScript</title>
+    <meta name="theme-color" content="#c73f29">
+    
+    <!--  Essential META Tags for  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--  Essential META Tags for SEO -->
+    <meta name="description" content="IIFE (Immediately-Invoked Function Expressions) produces a lexical scoping by using JavaScript&#x27;s function scoping and it run as soon as it is defined">
+    
+    <!--  Essential Social Media META Tags -->
+    <meta property="og:title" content="IIFE JavaScript">
+    <meta property="og:description" content="IIFE (Immediately-Invoked Function Expressions) produces a lexical scoping by using JavaScript&#x27;s function scoping and it run as soon as it is defined">
+    <meta property="og:image" content="http://euro-travel-example.com/thumbnail.jpg">
+    <meta property="og:url" content="http://euro-travel-example.com/index.htm">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!--  Non-Essential Social Media META Tags, But Recommended -->
+    <meta property="og:site_name" content="harumbawa.com">
+    <meta name="twitter:image:alt" content="IIFE JavaScript">
+    
+    <link rel="shortcut icon" type="image/png" href="/assets/images/logo.png"/>
+    <link rel="stylesheet" media="all" href="/assets/css/main.css">
+    <script type='module' src="/assets/module/index.js"></script>
+  </head>
+
+  <body class="o-container o-container--medium o-page u-pad-h--xlarge">
+    <header>
+      <nav id="main-nav" role="navigation">
+        <ul class="c-navigation" >
+          <li>
+            <a href="/">
+              <img
+                src="/assets/images/logo.svg"
+                alt="Harum Bawa Logo"
+                width="40"
+                class="u-vlign-middle"
+              >
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="/about.html">About</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    
+
+    <main
+      role="main"
+      class="page__content"
+    >
+      <article>
+        <time datetime="2018-05-26">2018-05-26</time>
+        <h1 class="u-mrgn-top--0">IIFE JavaScript</h1>
+
+<section>
+<h2>What is IIFE?</h2>
+<p>
+IIFE is one of JavaScript programming language idiom. In my early time learning
+JavaScript, I also found people use self-executing anonymous function or 
+self-invoked anonymous function idiom. But refer to
+<a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">Ben Alman</a>
+IIFE (Immediately-Invoked Function Expressions) is the right terminology for it.
+</p>
+</section>
+
+<section>
+<h2>What is IIFE?</h2>
+<p>
+IIFE produces a lexical scoping by using JavaScript's function scoping and it
+runs as soon as it is defined.
+This lexical scoping prevent us from polluting the global environment. It also make
+variable hoisting only happen inside the scope, it is not hoisted into global environment.
+</p>
+</section>
+
+<section>
+<h2>How to write IIFE?</h2>
+<p>
+There are several ways to write immediately invoked function expressions.
+</p>
+
+<pre>
+<code class="language-js">
+(function (){ /* code */ }()); // recommended by Crockford
+(function(){ /* code */ })(); // this also fine
+
+!function(){ /* code */ }();
+~function(){ /* code */ }();
+-function(){ /* code */ }();
++function(){ /* code */ }();
+</code>
+</pre>
+
+<br />
+<p>
+Maybe you will think why we need additional parens as wrapper. It should be as simple as declare a function and then add `()` to call that function. But it will not work. It will lead into syntax error because it is not a valid javascript code. Look at code below.
+</p>
+
+<pre><code class="language-js">
+function(){ /* code */ }()
+// Uncaught SyntaxError: Unexpected token (
+
+function myNamedFunc(){ /* code */ }()
+// Uncaught SyntaxError: Invalid or unexpected token
+</code></pre>
+
+<br />
+<p>
+To handle this syntax error, we need to make JavasScript engine parse function
+expression. There are several ways to produce a function expression from a function declaration. We can wrap the function declaration with parens `()`. We also be able to add unary operator like `!`, `+`, `-`, `~` or other unary operator to treat whatever coming after it as expression.
+</p>
+
+<p>
+There is difference between using parens wrapper and unary operator to
+create expressions. When using unary operator, your return value from your
+function will be changed. You can use unary operator if you are not concerning about return value of the function. Look at code below.
+</p>
+
+<pre><code class="language-js">
+// function return expected value
+(function (){ return 10 }()); // 10
+(function(){ return 10 })(); // 10
+
+// function return unexpected value
+!function(){ return 10 }(); // false
+~function(){ return 10 }(); // -11
+-function(){ return 10 }(); // -10
++function(){ return 'halo' }(); // NaN
+~function(){ return { name: 'haoo' } }(); // -1
+</code></pre>
+</section>
+
+<section>
+<h2>Use case</h2>
+
+<p>
+Prevent variable to pollute global environment, especially if you want your code
+run in the browser that is not supporting ES2015.
+</p>
+
+<pre><code class="language-js">
+(function (){
+  var age = 25; // age only live inside this IIFE
+
+  // other statements
+}());
+
+console.log(age); // Uncaught ReferenceError: age is not defined
+</code></pre>
+
+<br />
+<p>
+IIFE will help you to implement JavaScript Module pattern. Below is the example
+of singleton pattern.
+</p>
+
+<pre><code class="language-js">
+var counter = (function (){
+  var count = 0;
+
+  return {
+    add: function() {
+      count = count + 1;
+    },
+    get: function() {
+      return count;
+    },
+  };
+}());
+
+counter.add()
+counter.add()
+counter.add()
+console.log(counter.get()) // 3
+</code></pre>
+</section>
+
+<section>
+<h2>Further reading</h2>
+<p>
+If you interested in learning IIFE more deeper, you can read articles below. In
+Airbnb's article, you also will find why Crockford's way is more preferable.
+</p>
+
+<ul>
+<li><a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">immediately-invoked-function-expression (Bel Alman )</a></li>
+
+<li><a href="https://medium.com/airbnb-engineering/immediately-invoked-function-expressions-and-parentheses-eeea53b39e0b">immediately-invoked-function-expressions-and-parentheses (airbnb-engineering)</a></li>
+
+<li><a href="https://medium.com/@vvkchandra/essential-javascript-mastering-immediately-invoked-function-expressions-67791338ddc6">essential-javascript-mastering-immediately-invoked-function-expressions (Chandra Gundamaraju)</a></li>
+</ul>
+</section>
+      </article>
+    </main>
+
+    <footer class="u-pad-v--xlarge">
+      <section class="u-align-center" id="copyright">
+        <small>&copy; Copyright 2019, Putu Harum Bawa</small>
+      </section>
+    </footer>
+    <button class="c-scroll-top-button" id="scroll-top-button">
+      <svg
+        class="c-icon"
+        x="0px"
+        y="0px"
+        viewBox="0 0 444.819 444.819"
+        xml:space="preserve"
+      >
+      <g>
+        <path
+          style="fill:currentColor"
+          d="M434.252,208.708L248.387,22.843c-7.042-7.043-15.693-10.564-25.977-10.564c-10.467,0-19.036,3.521-25.697,10.564
+          L10.848,208.708C3.615,215.94,0,224.604,0,234.692c0,9.897,3.619,18.459,10.848,25.693l21.411,21.409
+          c6.854,7.231,15.42,10.855,25.697,10.855c10.278,0,18.842-3.624,25.697-10.855l83.939-83.651v200.998
+          c0,9.89,3.567,17.936,10.706,24.126c7.139,6.184,15.752,9.273,25.837,9.273h36.545c10.089,0,18.698-3.09,25.837-9.273
+          c7.139-6.188,10.712-14.236,10.712-24.126V198.144l83.938,83.651c6.848,7.231,15.413,10.855,25.7,10.855
+          c10.082,0,18.747-3.624,25.975-10.855l21.409-21.409c7.043-7.426,10.567-15.988,10.567-25.693
+          C444.819,224.795,441.295,216.134,434.252,208.708z"/>
+      </g>
+      </svg>
+    </button>
+
+    <script nomodule src="/assets/js/index.js"></script>
+  </body>
+</html>

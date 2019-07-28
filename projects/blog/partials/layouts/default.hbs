@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    {{> includes/meta }}
+    <link rel="stylesheet" media="all" href="/assets/css/main.css">
+    <script type='module' src="/assets/module/index.js"></script>
+  </head>
+
+  <body class="o-container o-container--medium o-page u-pad-h--xlarge">
+    {{> includes/header }}
+
+    <main
+      role="main"
+      class="page__content"
+    >
+      <h1>{{ title }}</h1>
+      {{#> content-block}}
+      {{/content-block}}
+    </main>
+
+    {{> includes/update-content }}
+    {{> includes/footer }}
+    {{> includes/back-to-top }}
+
+    <script nomodule src="/assets/js/index.js"></script>
+  </body>
+</html>

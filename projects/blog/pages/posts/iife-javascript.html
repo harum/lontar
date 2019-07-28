@@ -1,0 +1,145 @@
+---
+layout: post
+title: "IIFE JavaScript"
+description: "IIFE (Immediately-Invoked Function Expressions) produces a lexical scoping by using JavaScript's function scoping and it run as soon as it is defined"
+date: "2018-05-26"
+---
+
+<section>
+<h2>What is IIFE?</h2>
+<p>
+IIFE is one of JavaScript programming language idiom. In my early time learning
+JavaScript, I also found people use self-executing anonymous function or 
+self-invoked anonymous function idiom. But refer to
+<a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">Ben Alman</a>
+IIFE (Immediately-Invoked Function Expressions) is the right terminology for it.
+</p>
+</section>
+
+<section>
+<h2>What is IIFE?</h2>
+<p>
+IIFE produces a lexical scoping by using JavaScript's function scoping and it
+runs as soon as it is defined.
+This lexical scoping prevent us from polluting the global environment. It also make
+variable hoisting only happen inside the scope, it is not hoisted into global environment.
+</p>
+</section>
+
+<section>
+<h2>How to write IIFE?</h2>
+<p>
+There are several ways to write immediately invoked function expressions.
+</p>
+
+<pre>
+<code class="language-js">
+(function (){ /* code */ }()); // recommended by Crockford
+(function(){ /* code */ })(); // this also fine
+
+!function(){ /* code */ }();
+~function(){ /* code */ }();
+-function(){ /* code */ }();
++function(){ /* code */ }();
+</code>
+</pre>
+
+<br />
+<p>
+Maybe you will think why we need additional parens as wrapper. It should be as simple as declare a function and then add `()` to call that function. But it will not work. It will lead into syntax error because it is not a valid javascript code. Look at code below.
+</p>
+
+<pre><code class="language-js">
+function(){ /* code */ }()
+// Uncaught SyntaxError: Unexpected token (
+
+function myNamedFunc(){ /* code */ }()
+// Uncaught SyntaxError: Invalid or unexpected token
+</code></pre>
+
+<br />
+<p>
+To handle this syntax error, we need to make JavasScript engine parse function
+expression. There are several ways to produce a function expression from a function declaration. We can wrap the function declaration with parens `()`. We also be able to add unary operator like `!`, `+`, `-`, `~` or other unary operator to treat whatever coming after it as expression.
+</p>
+
+<p>
+There is difference between using parens wrapper and unary operator to
+create expressions. When using unary operator, your return value from your
+function will be changed. You can use unary operator if you are not concerning about return value of the function. Look at code below.
+</p>
+
+<pre><code class="language-js">
+// function return expected value
+(function (){ return 10 }()); // 10
+(function(){ return 10 })(); // 10
+
+// function return unexpected value
+!function(){ return 10 }(); // false
+~function(){ return 10 }(); // -11
+-function(){ return 10 }(); // -10
++function(){ return 'halo' }(); // NaN
+~function(){ return { name: 'haoo' } }(); // -1
+</code></pre>
+</section>
+
+<section>
+<h2>Use case</h2>
+
+<p>
+Prevent variable to pollute global environment, especially if you want your code
+run in the browser that is not supporting ES2015.
+</p>
+
+<pre><code class="language-js">
+(function (){
+  var age = 25; // age only live inside this IIFE
+
+  // other statements
+}());
+
+console.log(age); // Uncaught ReferenceError: age is not defined
+</code></pre>
+
+<br />
+<p>
+IIFE will help you to implement JavaScript Module pattern. Below is the example
+of singleton pattern.
+</p>
+
+<pre><code class="language-js">
+var counter = (function (){
+  var count = 0;
+
+  return {
+    add: function() {
+      count = count + 1;
+    },
+    get: function() {
+      return count;
+    },
+  };
+}());
+
+counter.add()
+counter.add()
+counter.add()
+console.log(counter.get()) // 3
+</code></pre>
+</section>
+
+<section>
+<h2>Further reading</h2>
+<p>
+If you interested in learning IIFE more deeper, you can read articles below. In
+Airbnb's article, you also will find why Crockford's way is more preferable.
+</p>
+
+<ul>
+<li><a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">immediately-invoked-function-expression (Bel Alman )</a></li>
+
+<li><a href="https://medium.com/airbnb-engineering/immediately-invoked-function-expressions-and-parentheses-eeea53b39e0b">immediately-invoked-function-expressions-and-parentheses (airbnb-engineering)</a></li>
+
+<li><a href="https://medium.com/@vvkchandra/essential-javascript-mastering-immediately-invoked-function-expressions-67791338ddc6">essential-javascript-mastering-immediately-invoked-function-expressions (Chandra Gundamaraju)</a></li>
+</ul>
+</section>
