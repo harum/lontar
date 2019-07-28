@@ -1,3 +1,6 @@
+const env = ((process.env.NODE_ENV || 'development').trim().toLowerCase());
+const devBuild = env === 'development';
+
 const gulp = require('gulp');
 const noop = require('gulp-noop');
 const through = require('through2');
@@ -88,6 +91,7 @@ function pagesGenerator(customSetting) {
       }))
       // End of - Main handlebars process
 
+      .pipe(devBuild ? noop() : strip())
       .pipe(gulp.dest(setting.dest));
 
     cb();
