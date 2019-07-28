@@ -26,7 +26,8 @@ function precache() {
       './assets/css/main.css',
       './assets/images/logo.png',
       './assets/images/logo.svg',
-      './assets/module/index.js',
+      './assets/js/modules/index.js',
+      './assets/js/bundles/index.js',
     ]);
   });
 }

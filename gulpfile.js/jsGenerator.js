@@ -20,6 +20,7 @@ function jsGenerator(customSetting) {
     entry: '',
     src: [],
     watch: [],
+    moduleFolder: true,
   };
 
   let setting = {
@@ -35,7 +36,7 @@ function jsGenerator(customSetting) {
     gulp.src(setting.src)
       .pipe(devBuild ? noop() : uglify())
       .pipe(size({ showFiles: true }))
-      .pipe(gulp.dest(`${setting.dest}/modules`));
+      .pipe(gulp.dest(`${setting.dest}${setting.moduleFolder ? '/modules' : ''}`));
 
     cb();
   };
