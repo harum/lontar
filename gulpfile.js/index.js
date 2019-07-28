@@ -7,7 +7,10 @@ const jsGenerator = require('./jsGenerator');
 function designSystem() {
   const pageSetting = {
     dest: 'projects/designSystem/www',
-    src: ['projects/designSystem/docs/*.{html,hbs}'],
+    src: [
+      'projects/designSystem/docs/*.{html,hbs}',
+      'projects/designSystem/docs/posts/*.{html,hbs}',
+    ],
     partials: [
       'projects/designSystem/docs/partials/*.{html,hbs}',
       'projects/designSystem/docs/partials/**/*.{html,hbs}',

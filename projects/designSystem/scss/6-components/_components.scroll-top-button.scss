@@ -1,0 +1,31 @@
+.c-scroll-top-button {
+  width: calc(var(--text-font-size-super) * 2);
+  display: inline-block;
+  background-color: var(--color-brand-lightest);
+  color: var(--color-white);
+  text-align: center;
+  border-radius: var(--spacing-xsmall);
+  position: fixed;
+  bottom: var(--spacing-xlarge);
+  right: var(--spacing-xlarge);
+  transition: background-color .3s,
+    opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+  padding: var(--spacing-small);
+  border: none;
+  margin: 0;
+}
+
+.c-scroll-top-button:hover {
+  cursor: pointer;
+  background-color: var(--color-brand-light);
+}
+.c-scroll-top-button:active {
+  background-color: var(--color-brand);
+}
+.c-scroll-top-button--visible {
+  opacity: 0.9;
+  visibility: visible;
+}
