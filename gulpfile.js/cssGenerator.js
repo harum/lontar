@@ -2,6 +2,7 @@ const env = ((process.env.NODE_ENV || 'development').trim().toLowerCase());
 const devBuild = env === 'development';
 
 const gulp = require('gulp');
+const noop = require('gulp-noop');
 const size = require('gulp-size');
 const sass = require('gulp-sass');
 const postcss = require('gulp-postcss');
@@ -46,7 +47,7 @@ function cssGenerator(customSetting) {
 
   // minify production CSS
   if (!devBuild) {
-    cssConfig.postCssOptions.push(cssnano);
+    setting.postCssOptions.push(cssnano);
   }
 
   const watchFiles = [
