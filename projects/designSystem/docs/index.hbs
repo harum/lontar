@@ -1,0 +1,68 @@
+<!-- https://zellwk.com/blog/rem-vs-em/ -->
+<!-- https://medium.com/ -->
+<!-- https://m.signalvnoise.com/ -->
+<!-- https://about.gitlab.com/2019/07/01/using-ansible-and-gitlab-as-infrastructure-for-code/ -->
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Design System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Minimal design system and style guide for
+    my personal website">
+
+    <link rel="stylesheet" media="all" href="/assets/css/main.css">
+    <script type='module' src="/assets/js/modules/index.js"></script>
+  </head>
+
+  <body style="padding: 10px;" class="o-container o-container--large page u-pillar-box-large">
+    <main
+      role="main"
+      class="page__content"
+    >
+      <!-- content from https://zellwk.com/blog/rem-vs-em/ -->
+      <article>
+        <h1>REM vs EM – The Great Debate</h1>
+        <time datetime="2018-05-26">17th Feb 2016</time>
+
+        <!-- first paragraph, difference styling -->
+        <p>One of the best practices to typography on the web is to use relative units like <code>rem</code> and <code>em</code>.</p>
+
+        <p>The question is, <strong>which should you use</strong>? There’s been a longstanding debate between <code>rem</code> supporters and <code>em</code> supporters, believing that you should use one over the other.</p>
+
+        <h2>What is EM?</h2>
+        <blockquote>An EM is a unit of typography, equal to the currently specified point-size<cite> Wikipedia </cite></blockquote>
+
+        <!-- paragraph with link -->
+        <p>The <code>em</code> unit can be used to declare font-sizes. In fact, it’s a <a href="/blog/responsive-typography">best practice</a> to use relative units like <code>em</code> for <code>font-size</code>.</p>
+
+
+        <!-- one line code -->
+        <pre><code>(function (){ /* code */ }()); // recommended by Crockford</code></pre>
+
+        <br>
+        <!-- multi line code -->
+        <pre><code>(function (){ /* code */ }()); // recommended by Crockford
+(function(){ /* code */ })(); // this also fine
+
+!function(){ /* code */ }();
+~function(){ /* code */ }();
+-function(){ /* code */ }();
++function(){ /* code */ }();</code></pre>
+
+        <h2>What is REM?</h2>
+        <p><strong><code>rem</code> means Root EM.</strong> It’s built to provide some relief the <code>em</code> computational problem that many faced.</p>
+
+        <!--
+        <figure><img src="https://miro.medium.com/max/1400/1*T_wCY9dpnq1jw-AM7BzZ2w.jpeg" alt="A header element">
+          <figcaption>I'm a header!</figcaption>
+        </figure>
+        -->
+
+      </article>
+
+    </main>
+    <script nomodule src="/assets/js/bundles/index.js"></script>
+  </body>
+</html>

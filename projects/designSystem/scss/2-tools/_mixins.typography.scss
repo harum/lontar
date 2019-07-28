@@ -1,0 +1,21 @@
+@mixin text {
+  color: var(--color-text);
+  font-weight: var(--text-font-weight);
+  font-family: var(--text-font-family);
+  font-size: var(--text-font-size-medium);
+  line-height: var(--text-line-height);
+  direction: ltr;
+  text-align: left;
+}
+
+@mixin code {
+  background-color: var(--color-brand-lightest);
+  border-radius: var(--spacing-xsmall);
+  color: var(--color-brand);
+  display: inline;
+  font-weight: var(--text-font-weight);
+  font-family: var(--text-font-family-mono);
+  font-size: var(--text-font-size-large);
+  margin: 0 calc(-1 * var(--spacing-tiny));
+  padding: var(--spacing-tiny) var(--spacing-xsmall);
+}

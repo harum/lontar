@@ -1,0 +1,15 @@
+@import '../2-tools/mixins.typography';
+
+pre {
+  @include code;
+  display: block;
+  padding: var(--spacing-small) var(--spacing-medium);
+  overflow-x: auto;
+  white-space: pre;
+  word-wrap: normal;
+  border-radius: var(--border-radius);
+  font-size: var(--text-font-size-medium);
+  background-color: var(--color-brand-lightest);
+  border-radius: var(--spacing-xsmall);
+  border: 1px solid var(--color-brand-dark);
+}

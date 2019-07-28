@@ -1,0 +1,5 @@
+@import '../2-tools/mixins.typography';
+
+html {
+  @include text;
+}

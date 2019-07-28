@@ -3,10 +3,10 @@
 // =============================================================================
 
 // base line debugger
-$enable-debug-typography:           true !default;
+$enable-debug-typography:           false !default;
 
 // whitespace debugger
-$enable-debug-whitespace:           true !default;
+$enable-debug-whitespace:           false !default;
 
 @if $enable-debug-typography {
   html {
@@ -21,7 +21,9 @@ $enable-debug-whitespace:           true !default;
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  p,
+  pre {
     outline: 1px solid #f00;
   }
 }

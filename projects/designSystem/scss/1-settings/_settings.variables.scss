@@ -1,0 +1,49 @@
+// =============================================================================
+// variables
+// use css variables
+// =============================================================================
+
+:root {
+  // colors --
+  --color-text: #000;
+  --color-link: #da472e;
+  --color-dark: #eee;
+  --color-light: #eee;
+
+  --color-brand-lightest: #ffefef;
+  --color-brand-lighter: #eea18e;
+  --color-brand-light: #d6624a;
+  --color-brand: #c73f29;
+  --color-brand-dark: #a43624;
+  --color-brand-darker: #812e1e;
+  --color-brand-darkest: #421c13;
+  // -- colors
+
+  // Typography --
+  --text-font-family: sans-serif;
+  --text-font-family-mono: monospace;
+
+  --text-font-size-super: 2em;
+  --text-font-size-xlarge: 1.5em;
+  --text-font-size-large: 1.25em;
+  --text-font-size-medium: 1em;
+  --text-font-size-small: 0.8em;
+  --text-font-size-xsmall: 0.67em;
+
+  --text-font-weight: normal;
+  --text-font-weight-heavy: bold;
+
+  --text-line-height: 1.55;
+  // -- Typography
+
+  // Spacing --
+  --spacing-super: 3em;
+  --spacing-xlarge: 2em;
+  --spacing-large: 1.5em;
+  --spacing-large: 1.5em;
+  --spacing-medium: 1em;
+  --spacing-small: 0.5em;
+  --spacing-xsmall: 0.25em;
+  --spacing-tiny: 0.125em;
+  // -- Spacing
+}
