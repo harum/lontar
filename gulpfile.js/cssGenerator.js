@@ -71,7 +71,6 @@ function cssGenerator(customSetting) {
     generateCss,
     watch(cb) {
       gulp.watch(watchFiles, generateCss);
-
       cb();
     },
   };

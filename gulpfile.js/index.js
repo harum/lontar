@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const pagesGenerator = require('./pagesGenerator');
 const cssGenerator = require('./cssGenerator');
+const imageGenerator = require('./imageGenerator');
 const jsGenerator = require('./jsGenerator');
 
 function designSystem() {
@@ -19,6 +20,11 @@ function designSystem() {
     watch: ['projects/designSystem/scss/**/*.scss'],
   };
 
+  const imageSetting = {
+    dest: 'projects/designSystem/www/assets/images',
+    src: ['projects/designSystem/images/*.{jpg,jpeg,png,svg}'],
+  };
+
   const jsSetting = {
     dest: 'projects/designSystem/www/assets/js',
     src: ['projects/designSystem/js/**/*.js'],
@@ -27,18 +33,21 @@ function designSystem() {
 
   const page = pagesGenerator(pageSetting);
   const css = cssGenerator(cssSetting);
+  const image = imageGenerator(imageSetting);
   const js = jsGenerator(jsSetting);
 
   return gulp.series(
     gulp.parallel(
       page.generatePage,
       css.generateCss,
+      image.generateImage,
       js.generateJsModule,
       js.generateJsBundle,
     ),
     gulp.parallel(
       page.watch,
       css.watch,
+      image.watch,
       js.watch,
     ),
   );
