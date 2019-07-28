@@ -1,0 +1,10 @@
+cite {
+  font-style: italic;
+  display: block;
+  color: var(--color-brand);
+}
+
+cite::before,
+cite::after {
+  content: '~';
+}

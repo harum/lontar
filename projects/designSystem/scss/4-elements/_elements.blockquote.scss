@@ -1,0 +1,23 @@
+blockquote {
+  background-color: var(--color-brand-lightest);
+  border-radius: var(--spacing-xsmall);
+  padding: var(--spacing-small);
+  padding-left: calc(var(--spacing-large) * 1.5);
+  border-left: var(--spacing-xsmall) solid var(--color-brand);
+  font-style: italic;
+  position: relative;
+  margin: var(--spacing-medium) var(--spacing-xlarge);
+}
+
+blockquote::before {
+  content: "\201C";
+  color: var(--color-brand);
+  position: absolute;
+  left: 0px;
+  top: -10px;
+  font-size: calc(var(--text-font-size-super) * 2);
+}
+
+blockquote::after {
+  content: '';
+}
