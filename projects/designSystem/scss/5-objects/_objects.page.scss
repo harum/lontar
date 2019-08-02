@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.o-page--center {
+  justify-content: center;
+}
+
 .o-page__content {
   flex-grow: 1;
 }

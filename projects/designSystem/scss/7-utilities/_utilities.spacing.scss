@@ -2,6 +2,10 @@
   margin-top: 0;
 }
 
+.u-mrgn-right--small {
+  margin-right: var(--spacing-small);
+}
+
 .u-pad-v--xlarge {
   padding-top: var(--spacing-xlarge);
   padding-bottom: var(--spacing-xlarge);
