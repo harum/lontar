@@ -2,6 +2,7 @@ export default (function() {
   return {
     init() {
       const btn = document.getElementById('scroll-top-button');
+      if (!btn) return;
 
       btn.addEventListener('click', function(e) {
         window.scrollTo({
