@@ -10,7 +10,7 @@
 @import '4-elements/elements.heading';
 @import '4-elements/elements.a';
 @import '4-elements/elements.code';
-@import '4-elements/elements.pre';
+// @import '4-elements/elements.pre';
 @import '4-elements/elements.blockquote';
 @import '4-elements/elements.cite';
 @import '4-elements/elements.time';
@@ -23,6 +23,7 @@
 @import '6-components/components.navigation';
 @import '6-components/components.avatar';
 @import '6-components/components.scroll-top-button';
+@import '6-components/components.vendor.prism';
 
 // 7-utilities
 // @import '7-utilities/utilities.size';

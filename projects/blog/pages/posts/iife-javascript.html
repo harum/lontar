@@ -33,15 +33,13 @@ There are several ways to write immediately invoked function expressions.
 </p>
 
 <pre>
-<code class="language-js">
-(function (){ /* code */ }()); // recommended by Crockford
+<code class="language-js">(function (){ /* code */ }()); // recommended by Crockford
 (function(){ /* code */ })(); // this also fine
 
 !function(){ /* code */ }();
 ~function(){ /* code */ }();
 -function(){ /* code */ }();
-+function(){ /* code */ }();
-</code>
++function(){ /* code */ }();</code>
 </pre>
 
 <br />
@@ -49,18 +47,19 @@ There are several ways to write immediately invoked function expressions.
 Maybe you will think why we need additional parens as wrapper. It should be as simple as declare a function and then add `()` to call that function. But it will not work. It will lead into syntax error because it is not a valid javascript code. Look at code below.
 </p>
 
-<pre><code class="language-js">
-function(){ /* code */ }()
+<pre><code class="language-js">function(){ /* code */ }()
 // Uncaught SyntaxError: Unexpected token (
 
 function myNamedFunc(){ /* code */ }()
-// Uncaught SyntaxError: Invalid or unexpected token
-</code></pre>
+// Uncaught SyntaxError: Invalid or unexpected token</code></pre>
 
 <br />
 <p>
 To handle this syntax error, we need to make JavasScript engine parse function
-expression. There are several ways to produce a function expression from a function declaration. We can wrap the function declaration with parens `()`. We also be able to add unary operator like `!`, `+`, `-`, `~` or other unary operator to treat whatever coming after it as expression.
+expression. There are several ways to produce a function expression from a
+function declaration. We can wrap the function declaration with parens
+<code>()</code>. We also be able to add unary operator like <code>!</code>,
+<code>+</code>, <code>-</code>, <code>~</code> or other unary operator to treat whatever coming after it as expression.
 </p>
 
 <p>
@@ -69,8 +68,7 @@ create expressions. When using unary operator, your return value from your
 function will be changed. You can use unary operator if you are not concerning about return value of the function. Look at code below.
 </p>
 
-<pre><code class="language-js">
-// function return expected value
+<pre><code class="language-js">// function return expected value
 (function (){ return 10 }()); // 10
 (function(){ return 10 })(); // 10
 
@@ -79,8 +77,7 @@ function will be changed. You can use unary operator if you are not concerning a
 ~function(){ return 10 }(); // -11
 -function(){ return 10 }(); // -10
 +function(){ return 'halo' }(); // NaN
-~function(){ return { name: 'haoo' } }(); // -1
-</code></pre>
+~function(){ return { name: 'haoo' } }(); // -1</code></pre>
 </section>
 
 <section>
@@ -91,15 +88,13 @@ Prevent variable to pollute global environment, especially if you want your code
 run in the browser that is not supporting ES2015.
 </p>
 
-<pre><code class="language-js">
-(function (){
+<pre><code class="language-js">(function (){
   var age = 25; // age only live inside this IIFE
 
   // other statements
 }());
 
-console.log(age); // Uncaught ReferenceError: age is not defined
-</code></pre>
+console.log(age); // Uncaught ReferenceError: age is not defined</code></pre>
 
 <br />
 <p>
@@ -107,8 +102,7 @@ IIFE will help you to implement JavaScript Module pattern. Below is the example
 of singleton pattern.
 </p>
 
-<pre><code class="language-js">
-var counter = (function (){
+<pre><code class="language-js">var counter = (function (){
   var count = 0;
 
   return {
@@ -124,8 +118,7 @@ var counter = (function (){
 counter.add()
 counter.add()
 counter.add()
-console.log(counter.get()) // 3
-</code></pre>
+console.log(counter.get()) // 3</code></pre>
 </section>
 
 <section>
